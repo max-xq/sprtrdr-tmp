@@ -3,8 +3,7 @@ package mi.sprtrdrd.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
     private Board testBoard = new Board();
@@ -54,7 +53,31 @@ public class BoardTest {
         final var exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> this.testBoard.removeGame(game));
-        assertEquals("Illegal argument removing a game. Requested game does not exist: "+ game, exception.getMessage());
+        assertEquals("Requested game does not exist: "+ game, exception.getMessage());
+    }
+
+    @Test
+    public void testAddGame__game_added_normally_in_parallel_threads() throws InterruptedException {
+        assertEquals(5, this.testBoard.readGameBoard().size());
+        final var THREAD_POOL_SIZE = 500;
+        final var GAME_PER_THREAD = 20;
+        var threadArr = new Thread[THREAD_POOL_SIZE];
+        for (var i = 0; i < threadArr.length; ++i) {
+            int inx = i;
+            threadArr[i] = new Thread(() -> {
+                for (var j = 0; j < GAME_PER_THREAD; ++j) {
+                    final var teamA = new Team("teamA"+ inx + "-" + j);
+                    final var teamB = new Team("teamB"+ inx + "-" + j);
+                    final var game = new Game(teamA, teamB);
+                    assertNotNull(this.testBoard.addGame(game));
+                }
+            });
+            threadArr[i].start();
+        }
+        for (var thread: threadArr) {
+            thread.join();
+        }
+        assertEquals(THREAD_POOL_SIZE*GAME_PER_THREAD + 5, this.testBoard.readGameBoard().size());
     }
 
     private void refreshTestBoard() {
