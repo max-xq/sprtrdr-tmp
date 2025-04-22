@@ -1,5 +1,11 @@
 package mi.sprtrdrd.model;
 
-public class TeamScore {
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Data
+public class TeamScore {
+    private final Team team;
+    private Integer score = 0;
 }
