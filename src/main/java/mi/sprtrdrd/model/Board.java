@@ -11,17 +11,21 @@ public class Board {
     }
 
     public Game addGame(Game game) {
-        if (gameBoard.containsValue(game)) {
-            throw new IllegalArgumentException("Illegal argument creating a game. Game " + game + " is already on the board");
+        synchronized (this) {
+            if (gameBoard.containsValue(game)) {
+                throw new IllegalArgumentException("Illegal argument creating a game. Game " + game + " is already on the board");
+            }
+            gameBoard.put(game.hashCode(), game);
+            return game;
         }
-        gameBoard.put(game.hashCode(), game);
-        return game;
     }
 
     public Game removeGame(Game game) {
-        if (!gameBoard.containsKey(game.hashCode())) {
-            throw new IllegalArgumentException("Illegal argument removing a game. Requested game does not exist: "+ game);
+        synchronized (this) {
+            if (!gameBoard.containsKey(game.hashCode())) {
+                throw new IllegalArgumentException("Illegal argument removing a game. Requested game does not exist: " + game);
+            }
+            return gameBoard.remove(game.hashCode());
         }
-        return gameBoard.remove(game.hashCode());
     }
 }
