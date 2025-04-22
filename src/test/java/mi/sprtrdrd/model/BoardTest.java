@@ -53,7 +53,7 @@ public class BoardTest {
         final var exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> this.testBoard.removeGame(game));
-        assertEquals("Requested game does not exist: "+ game, exception.getMessage());
+        assertEquals("Illegal argument removing a game. Requested game does not exist: "+ game, exception.getMessage());
     }
 
     @Test
