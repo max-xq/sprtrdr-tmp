@@ -9,7 +9,8 @@ public class Game {
 
     public Game(final Team teamHome, final Team teamGuest) {
         if (teamHome.equals(teamGuest)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException(
+                    "Illegal argument creating a game. Home and guest teams are the same: " + teamHome + " " + teamGuest);
         }
         this.teamHome = new TeamScore(teamHome);
         this.teamGuest = new TeamScore(teamGuest);
@@ -21,7 +22,7 @@ public class Game {
         } else if (team.equals(teamGuest.getTeam())) {
             teamGuest.setScore(score);
         } else {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Team "+team+" does not play in game " + this);
         }
     }
 }

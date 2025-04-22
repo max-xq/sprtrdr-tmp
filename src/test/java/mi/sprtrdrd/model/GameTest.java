@@ -19,7 +19,12 @@ public class GameTest {
     public void testCreateGame__failed() {
         final var teamA = new Team("teamA");
         final var teamB = new Team("teamA");
-        assertThrows(Exception.class, () -> new Game(teamA, teamB));
+        final var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Game(teamA, teamB));
+        assertEquals(
+                "Illegal argument creating a game. Home and guest teams are the same: " + teamA + " " + teamB,
+                exception.getMessage());
     }
 
     @Test
@@ -38,6 +43,9 @@ public class GameTest {
         final var teamB = new Team("teamB");
         final var game1 = new Game(teamA, teamB);
         final var teamC = new Team("teamC");
-        assertThrows(Exception.class, () -> game1.updateScore(teamC, 1));
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game1.updateScore(teamC, 1));
+        assertEquals("Team "+teamC+" does not play in game " + game1, exception.getMessage());
     }
 }
