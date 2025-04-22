@@ -1,11 +1,13 @@
 package mi.sprtrdrd.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
+@EqualsAndHashCode
 public class TeamScore {
     private final Team team;
-    private Integer score = 0;
+    @EqualsAndHashCode.Exclude private Integer score = 0;
 }

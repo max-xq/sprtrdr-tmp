@@ -1,7 +1,9 @@
 package mi.sprtrdrd.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode
 @Getter
 public class Game {
     private final TeamScore teamHome;

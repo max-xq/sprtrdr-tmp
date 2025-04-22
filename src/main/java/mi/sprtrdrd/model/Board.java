@@ -1,21 +1,27 @@
 package mi.sprtrdrd.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Board {
 
-    private List gameBoard = new ArrayList();
+    private final HashMap<Integer, Game> gameBoard = new HashMap<>();
 
-    public List readGameBoard() {
-        return new ArrayList(gameBoard);
+    public HashMap<Integer, Game> readGameBoard() {
+        return new HashMap<>(gameBoard);
     }
 
     public Game addGame(Game game) {
-        return null;
+        if (gameBoard.containsValue(game)) {
+            throw new IllegalArgumentException("Illegal argument creating a game. Game " + game + " is already on the board");
+        }
+        gameBoard.put(game.hashCode(), game);
+        return game;
     }
 
     public Game removeGame(Game game) {
-        return null;
+        if (!gameBoard.containsKey(game.hashCode())) {
+            throw new IllegalArgumentException("Illegal argument removing a game. Requested game does not exist: "+ game);
+        }
+        return gameBoard.remove(game.hashCode());
     }
 }
