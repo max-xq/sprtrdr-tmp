@@ -1,13 +1,13 @@
 package mi.sprtrdrd.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Board {
 
-    private final HashMap<Integer, Game> gameBoard = new HashMap<>();
+    private final LinkedHashMap<Integer, Game> gameBoard = new LinkedHashMap<>();
 
-    public HashMap<Integer, Game> readGameBoard() {
-        return new HashMap<>(gameBoard);
+    public LinkedHashMap<Integer, Game> readGameBoard() {
+        return new LinkedHashMap<>(gameBoard);
     }
 
     public Game addGame(Game game) {
